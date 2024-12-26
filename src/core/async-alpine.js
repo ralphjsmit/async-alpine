@@ -143,7 +143,19 @@ const AsyncAlpine = {
     const requirements = parseRequirements(component.strategy);
 
     await this._generateRequirements(component, requirements);
+
+    if (! component.el.isConnected) {
+      // component.el not present in DOM anymore (for example, by Livewire `wire:navigate`)
+      return;
+    }
+
     await this._download(component.name);
+
+    if (! component.el.isConnected) {
+      // component.el not present in DOM anymore (for example, by Livewire `wire:navigate`)
+      return;
+    }
+    
     this._activate(component);
   },
 
